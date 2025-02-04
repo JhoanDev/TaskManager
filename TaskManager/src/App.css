@@ -1,7 +1,7 @@
 /* src/App.css */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: rgba(0, 0, 0, 0.9); /* Fundo fosco */
   margin: 0;
   padding: 0;
   display: flex;
@@ -11,21 +11,27 @@ body {
 }
 
 .container {
-  background-color: #fff;
+  display: flex; /* Alinha o formulário e a lista lado a lado */
+  background-color: #fff; /* Fundo branco para o contêiner */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombras mais intensas para destaque */
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px; /* Largura máxima aumentada */
+  backdrop-filter: blur(10px); /* Efeito de desfoque no fundo */
+  gap: 40px; /* Espaço entre o formulário e a lista */
 }
 
 h1 {
   text-align: center;
-  color: #333;
+  color: white; /* Título em branco */
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 form {
-  margin-bottom: 20px;
+  width: 400px; /* Largura fixa para o formulário */
+  flex-shrink: 0; /* Impede que o formulário encolha */
 }
 
 form div {
@@ -36,35 +42,49 @@ form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: white;
 }
 
 form input,
 form textarea,
 form select {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
 }
 
 form button {
-  padding: 10px 15px;
-  background-color: #28a745;
-  color: #fff;
+  padding: 12px 20px;
+  background-color: #28a745; /* Verde claro */
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-right: 10px;
+  transition: background-color 0.3s ease;
 }
 
 form button[type="button"] {
-  background-color: #dc3545;
+  background-color: #6f42c1; /* Violeta escuro */
+}
+
+form button:hover {
+  background-color: #218838;
+}
+
+form button[type="button"]:hover {
+  background-color: #5a2d91;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  overflow-y: auto; /* Permite rolar a lista */
+  max-height: 500px; /* Limita a altura da lista */
 }
 
 li {
@@ -73,6 +93,10 @@ li {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 li h3 {
@@ -86,19 +110,40 @@ li p {
 }
 
 li button {
-  padding: 5px 10px;
-  margin-right: 5px;
+  padding: 8px 16px;
+  margin-left: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 li button:first-of-type {
-  background-color: #ffc107;
-  color: #000;
+  background-color: #ffc107; /* Amarelo para editar */
+  color: black;
 }
 
 li button:last-of-type {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: #dc3545; /* Vermelho para excluir */
+  color: white;
+}
+
+li button:first-of-type:hover {
+  background-color: #e0a800;
+}
+
+li button:last-of-type:hover {
+  background-color: #c82333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Fica empilhado em telas menores */
+    gap: 20px;
+  }
+
+  form {
+    width: 100%; /* Formulário ocupa toda a largura disponível */
+  }
 }
