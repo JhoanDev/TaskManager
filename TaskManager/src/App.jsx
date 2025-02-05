@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 
 // URL da API (substitua pela sua URL real)
 const API_URL = 'https://3st1xsk3vd.execute-api.us-east-1.amazonaws.com/prod/GerenciarTarefas';
@@ -37,37 +36,55 @@ const TarefaForm = ({ tarefa, onSubmit, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Título:</label>
+        <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-md w-full">
+            <div className="mb-4">
+                <label className="block text-gray-200 font-bold mb-2">Título:</label>
                 <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-200"
                     required
                 />
             </div>
-            <div>
-                <label>Descrição:</label>
+            <div className="mb-4">
+                <label className="block text-gray-200 font-bold mb-2">Descrição:</label>
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-200"
                     required
                 />
             </div>
-            <div>
-                <label>Status:</label>
+            <div className="mb-4">
+                <label className="block text-gray-200 font-bold mb-2">Status:</label>
                 <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-200"
                 >
                     <option value="pendente">Pendente</option>
                     <option value="em andamento">Em andamento</option>
                     <option value="concluída">Concluída</option>
                 </select>
             </div>
-            <button type="submit">Salvar</button>
-            {onCancel && <button type="button" onClick={onCancel}>Cancelar</button>}
+            <div className="flex gap-2">
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                    Salvar
+                </button>
+                {onCancel && (
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                    >
+                        Cancelar
+                    </button>
+                )}
+            </div>
         </form>
     );
 };
@@ -75,20 +92,29 @@ const TarefaForm = ({ tarefa, onSubmit, onCancel }) => {
 // Componente de Listagem de Tarefas
 const TarefaList = ({ tarefas, onAtualizarStatus, onDelete }) => {
     return (
-        <div>
-            <h2>Lista de Tarefas</h2>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-h-96 overflow-y-auto">
             <ul>
                 {tarefas.map((tarefa) => (
-                    <li key={tarefa.id}>
-                        <h3>{tarefa.title}</h3>
-                        <p>{tarefa.description}</p>
-                        <p>Status: {tarefa.status}</p>
-                        {tarefa.status !== 'concluída' && (
-                            <button onClick={() => onAtualizarStatus(tarefa)}>
-                                {tarefa.status === 'pendente' ? 'Iniciar' : 'Concluir'}
+                    <li key={tarefa.id} className="mb-4 p-4 border border-gray-600 rounded-lg">
+                        <h3 className="text-xl font-semibold text-gray-200">{tarefa.title}</h3>
+                        <p className="text-gray-300">{tarefa.description}</p>
+                        <p className="text-gray-400">Status: {tarefa.status}</p>
+                        <div className="mt-2 flex gap-2">
+                            {tarefa.status !== 'concluída' && (
+                                <button
+                                    onClick={() => onAtualizarStatus(tarefa)}
+                                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+                                >
+                                    {tarefa.status === 'pendente' ? 'Iniciar' : 'Concluir'}
+                                </button>
+                            )}
+                            <button
+                                onClick={() => onDelete(tarefa.id)}
+                                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                            >
+                                Excluir
                             </button>
-                        )}
-                        <button onClick={() => onDelete(tarefa.id)}>Excluir</button>
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -96,7 +122,6 @@ const TarefaList = ({ tarefas, onAtualizarStatus, onDelete }) => {
     );
 };
 
-// Componente Principal da Aplicação
 const App = () => {
     const [tarefas, setTarefas] = useState([]);
     const [tarefaEditando, setTarefaEditando] = useState(null);
@@ -162,18 +187,31 @@ const App = () => {
     };
 
     return (
-        <div className="App">
-            <h1>Gerenciador de Tarefas</h1>
-            <TarefaForm
-                tarefa={tarefaEditando}
-                onSubmit={handleSubmit}
-                onCancel={() => setTarefaEditando(null)}
-            />
-            <TarefaList
-                tarefas={tarefas}
-                onAtualizarStatus={atualizarStatus}
-                onDelete={excluirTarefa}
-            />
+        <div className="min-h-screen bg-gray-900 py-8 flex items-center justify-center">
+            <div className="container mx-auto px-4">
+                <h1 className="text-3xl font-bold text-center mb-8 text-gray-200">Gerenciador de Tarefas</h1>
+                <div className="flex justify-center gap-8">
+                    {/* Seção do Formulário */}
+                    <div className="w-full max-w-md">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-200">Criar Tarefa</h2>
+                        <TarefaForm
+                            tarefa={tarefaEditando}
+                            onSubmit={handleSubmit}
+                            onCancel={() => setTarefaEditando(null)}
+                        />
+                    </div>
+
+                    {/* Seção da Lista de Tarefas */}
+                    <div className="w-full max-w-md">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-200">Lista de Tarefas</h2>
+                        <TarefaList
+                            tarefas={tarefas}
+                            onAtualizarStatus={atualizarStatus}
+                            onDelete={excluirTarefa}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
